@@ -1,0 +1,39 @@
+{
+    "name": "linkerscript",
+    "displayName": "LinkerScript",
+    "description": "Language support for GNU linker script",
+    "version": "1.0.0",
+    "publisher": "zxwang",
+    "engines": {
+        "vscode": "^1.26.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "linkerscript",
+                "aliases": [
+                    "LinkerScript",
+                    "linkerscript"
+                ],
+                "extensions": [
+                    ".ld",
+                    ".dld"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "linkerscript",
+                "scopeName": "source.ld",
+                "path": "./syntaxes/linkerscript.json"
+            }
+        ]
+    },
+    "dependencies": {
+        "yamljs": "^0.3.0"
+    }
+}

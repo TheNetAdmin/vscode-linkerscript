@@ -1,0 +1,273 @@
+# playground: regexr.com/3u1ub
+
+name: LinkerScript
+scopeName: source.ld
+fileTypes: [ld]
+patterns:
+  - include: '#comments'
+  - include: '#simple_commands'
+  - include: '#assignments'
+  - include: '#sections'
+  - include: '#memory'
+  - include: '#phdrs'
+  - include: '#version'
+  - include: '#expressions'
+repository:
+  comments:
+    name: comment.block.ld
+    begin: '/\*'
+    beginCaptures:
+      '0': {name: punctuation.definition.comment.begin.ld}
+    end: '\*/'
+    endCaptures:
+      '0': {name: punctuation.definition.comment.end.ld}
+  simple_commands:
+    patterns:
+      # entry
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          ENTRY
+          )\b
+      # file commands
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          INCLUDE
+          |INPUT
+          |GROUP
+          |OUTPUT
+          |SEARCH_DIR
+          |STARTUP
+          )\b
+      # object file formats commands
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          OUTPUT_FORMAT
+          |TARGET
+          )\b
+      # other linker script commands
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          ASSERT
+          |EXTERN
+          |FORCE_COMMON_ALLOCATION
+          |INHIBIT_COMMON_ALLOCATION
+          |NOCROSSREFS
+          |OUTPUT_ARCH
+          )\b
+  assignments:
+    patterns:
+      # simple assignemts
+      - name: keyword.operand.ld
+        match: =|\+=|-=|\*=|/=|<<=|>>=|&=|\|=
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          PROVIDE
+          |HIDDEN
+          |PROVIDE_HIDDEN
+          )\b
+  sections:
+    patterns:
+      # section function
+      - name: support.function.builtin.ld
+        match: (?x) \b(?:SECTIONS)\b
+      # section input `start.o(*.text *.text.*)`
+      - name: section.input.ld
+        match: (?x) (\S+)((?:\s*\(\s*)(((\.[\.\*\w]+)(?:\s*))+)(?:\s*\)))
+        captures:
+          '1':
+            name: support.function.builtin.ld
+          '3':
+            name: variable.other.ld
+      # section output pre part
+      # TODO: `\s` does not match `linebreak` yet, not sure how to fix
+      #       it seems `multiline` mode is not on, but `(?m)` does not work
+      #       maybe related: https://github.com/Microsoft/vscode/issues/13155
+      #       see if repgrep will support multiline mode
+      - name: section.output.prepart.ld
+        match: '(?mx) (\B\.[\.\*\w]+\b)(?:\s*)(\w*)(?:\s*)((\(\s*[\w]*\s*\))?)(?:\s*)(\:)(?:\s*)((AT)?)(?:\s*\(?)(\w*)(?:\s*\)?)'
+        captures:
+          '1':    # section name
+            name: variable.other.ld
+          '2':    # section addr
+            name: constant.numeric.ld
+          '4':    # section attribute NOLOAD/DSECT/COPY/INFO/OVERLAY
+            name: keyword.control.ld
+          '5':    # ':'
+            name: keyword.operand.ld
+          '7':    # section `AT` command
+            name: support.function.builtin.ld
+          '8':    # section load addr
+            name: constant.numeric.ld
+      # section output post part
+      # NOTE: must in right order as specified in `4.6.1. Output Section Description`
+      - name: section.output.postpart.ld
+        match: '(?:\}\s*)((\>)(\s*\w*)?)(?:\s*)((AT)(?:\s*)(\>)(?:\s*)(\w*))?(?:\s*)(((\:\w*)(?:\s*))*)(((\=)(?:\s*)(\w*))?)'
+        captures:
+          '2':    # '>'
+            name: keyword.operand.ld
+          '3':    # region
+            name: variable.other.ld
+          '5':    # AT func
+            name: support.function.builtin.ld
+          '6':    # '>'
+            name: keyword.operand.ld
+          '7':    # AT region
+            name: variable.other.ld
+          '8':    # phdr
+            name: keyword.control.ld
+          '13':   # '='
+            name: keyword.operand.ld
+          '14':   # fillup
+            name: constant.numeric.ld
+      # some related commands
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          EXCLUDE_FILE
+          |CREATE_OBJECT_SYMBOLS
+          |CONSTRUCTORS
+          )\b
+      # data types
+      - name: datatypes.ld
+        match: (?x) (BYTE|SHORT|LONG|QUAD|SQUAD)(?:\s*\(\s*)([^\(\)]*)(?:\s*\))
+        captures:
+          '1':
+            name: support.type.ld
+          '2':
+            name: constant.numeric.ld
+      # discard
+      - name: section.discard.ld
+        match: (/DISCARD/)(?:\s*)(\:)
+        captures:
+          '1':    # `/DISCARD/`
+            name: variable.other.ld
+          '2':    # ':'
+            name: keyword.operand.ld
+  memory:
+    patterns:
+      # memory function
+      - name: support.function.builtin.ld
+        match: (?x) \b(?:MEMORY)\b
+      # memory configuration
+      - name: memory.config.ld
+        match: (\S*)(?:\s*\(\s*)((R|r|W|w|X|x|A|a|I|i|L|l|\!)+)(?:\s*\)\s*)(\:)((?:\s*)(ORIGIN|org|o|LENGTH|len|l)(?:\s*)(\=)(?:\s*)(\w*)(,?))((?:\s*)(ORIGIN|org|o|LENGTH|len|l)(?:\s*)(\=)(?:\s*)(\w*))
+        captures:
+          '1':    # mem rigion name
+            name: variable.other.ld
+          '2':    # mem rigion attr '(!RWX)'
+            name: keyword.control.ld
+          '4':    # ':'
+            name: keyword.operand.ld
+          '6':    # ORIGIN/LENGTH
+            name: support.variable.ld
+          '7':    # '='
+            name: keyword.operand.ld
+          '8':    # addr/size
+            name: constant.numeric.ld
+          '11':   # ORIGIN/LENGTH
+            name: support.variable.ld
+          '12':   # '='
+            name: keyword.operand.ld
+          '13':   # addr/size
+            name: constant.numeric.ld
+      # memory calc functions
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          LENGTH
+          |len
+          |l
+          |ORIGIN
+          |org
+          |o
+          )\b
+  phdrs:
+    patterns:
+      # phdrs function
+      - name: support.function.builtin.ld
+        match: (?x) \b(?:PHDRS)\b
+      - name: phdrs.config.ld
+        match: (\w*)(?:\s*)(PT_NULL|PT_LOAD|PT_DYNAMIC|PT_INTERP|PT_NOTE|PT_SHLIB|PT_PHDR)(?:\s*)((FILEHDR)?)(?:\s*)((PHDRS)?)(?:\s*)((((AT)?)(?:\s*\(\s*)(\w*)(?:\s*\)\s*))?)((((FLAGS)?)(?:\s*\(\s*)(\w*)(?:\s*\)\s*))?)(\;)
+        captures:
+          '1':    # phdr name
+            name: variable.other.ld
+          '2':    # phdr type
+            name: constant.numeric.ld
+          '4':    # 'FILEHDR'
+            name: keyword.control.ld
+          '6':    # 'PHDRS'
+            name: keyword.control.ld
+          '10':    # 'AT'
+            name: support.function.builtin.ld
+          '11':    # AT addr
+            name: constant.numeric.ld
+          '15':    # 'FLAGS'
+            name: support.function.builtin.ld
+          '16':   # FLAGS flags
+            name: constant.numeric.ld
+  version:
+    patterns:
+      # VERSION function
+      - name: support.function.builtin.ld
+        match: (?x) \b(?:VERSION)\b
+  expressions:
+    patterns:
+      # try to match expressions
+      - name: expression.ld
+        match: (\w*)(?:\s*)(=|\+=|-=|\*=|/=|<<=|>>=|&=|\|=)
+        captures:
+          '1':
+            name: variable.other.ld
+          '2':
+            name: keyword.operand.ld
+      # symbolic constants
+      - name: constant.numeric.ld
+        match: (?x) \b(?:(MAXPAGESIZE)|(COMMONPAGESIZE))\b
+      # dot(.)
+      - name: variable.other.ld
+        match: \.
+      # operands
+      - name: keyword.operand.ld
+        match: '!|-|~'
+      - name: keyword.operand.ld
+        match: '\*|/|%'
+      - name: keyword.operand.ld
+        match: '\+|\-'
+      - name: keyword.operand.ld
+        match: '<<|>>'
+      - name: keyword.operand.ld
+        match: '==|!=|>|<|>=|<='
+      - name: keyword.operand.ld
+        match: '&'
+      - name: keyword.operand.ld
+        match: '\|'
+      - name: keyword.operand.ld
+        match: '&&'
+      - name: keyword.operand.ld
+        match: '\|\|'
+      - name: keyword.operand.ld
+        match: '\?|\:'
+      # builtin functions
+      - name: support.function.builtin.ld
+        match: >-
+          (?x) \b(?:
+          ABSOLUTE
+          |ADDR
+          |ALIGN
+          |BLOCK
+          |DATA_SEGMENT_ALIGN
+          |DATA_SEGMENT_END
+          |DEFINED
+          |LOADADDR
+          |MAX
+          |MIN
+          |NEXT
+          |SIZEOF
+          |SIZEOF_HEADERS
+          |sizeof_headers
+          )\b
