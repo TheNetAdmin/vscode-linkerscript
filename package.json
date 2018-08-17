@@ -3,7 +3,8 @@
     "displayName": "LinkerScript",
     "description": "Language support for GNU linker script",
     "version": "1.0.0",
-    "publisher": "zxwang",
+    "publisher": "ZixuanWang",
+    "icon": "images/icon.png",
     "engines": {
         "vscode": "^1.26.0"
     },
@@ -33,7 +34,13 @@
             }
         ]
     },
-    "dependencies": {
-        "yamljs": "^0.3.0"
-    }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TheNetAdmin/vscode-linkerscript.git"
+    },
+    "bugs": {
+        "email": "zxwang42@gmail.com",
+        "url": "https://github.com/TheNetAdmin/vscode-linkerscript/issues"
+    },
+    "dependencies": {}
 }

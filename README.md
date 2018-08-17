@@ -4,6 +4,8 @@ This is the language support for LinkerScript for VSCode, provides syntax highli
 
 It provides syntax highlight with [TmLanguage](https://macromates.com/manual/en/language_grammars) based on [regex](https://macromates.com/manual/en/regular_expressions) , without Abstract Syntax Tree (AST), thus some syntaxes and language features may not get correct highlight.
 
+For source code, please visit [Github](https://github.com/TheNetAdmin/vscode-linkerscript).
+
 ## Develop
 
 1. Install npm package `yamljs`
@@ -11,7 +13,7 @@ It provides syntax highlight with [TmLanguage](https://macromates.com/manual/en/
 3. Use `yaml2json ***.yaml >***.json` to convert to json
 4. Run with newly updated `***.json`
 
-> Or you can use `F5` to run directly, all configs are located at `.vscode/`
+> Or you can use `F5` to run directly if `yamljs` is already installed globally, all configs are located at `.vscode/`
 
 ## Known issues
 
