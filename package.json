@@ -23,7 +23,7 @@
                     ".ld",
                     ".dld"
                 ],
-                "configuration": "./language-configuration.json"
+                "configuration": "./config/language-configuration.json"
             }
         ],
         "grammars": [
