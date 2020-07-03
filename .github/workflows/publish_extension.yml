@@ -29,4 +29,4 @@ jobs:
       env:
         PUBLISHER_TOKEN: ${{ secrets.VSCE_TOKEN }}
       with:
-        args: publish -p $VSCE_TOKEN
+        args: publish -p $PUBLISHER_TOKEN
