@@ -2,6 +2,10 @@
 
 All notable changes to the "linkerscript" extension will be documented in this file.
 
+## [1.0.1]
+
+- Fix path bug [#1](https://github.com/TheNetAdmin/vscode-linkerscript/pull/1)
+
 ## [1.0.0]
 
 - Initial release
