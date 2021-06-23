@@ -2,7 +2,7 @@
     "name": "linkerscript",
     "displayName": "LinkerScript",
     "description": "Language support for GNU linker script",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "ZixuanWang",
     "icon": "images/icon.png",
     "engines": {
@@ -21,7 +21,8 @@
                 ],
                 "extensions": [
                     ".ld",
-                    ".dld"
+                    ".dld",
+                    ".lds"
                 ],
                 "configuration": "./config/language-configuration.json"
             }
