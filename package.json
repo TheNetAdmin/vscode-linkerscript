@@ -22,7 +22,8 @@
                 "extensions": [
                     ".ld",
                     ".dld",
-                    ".lds"
+                    ".lds",
+                    ".x"
                 ],
                 "configuration": "./config/language-configuration.json"
             }
