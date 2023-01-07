@@ -1,0 +1,48 @@
+{
+  "name": "linkerscript",
+  "displayName": "LinkerScript",
+  "description": "Language support for GNU linker script",
+  "version": "1.0.3",
+  "publisher": "ZixuanWang",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.26.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "linkerscript",
+        "aliases": [
+          "LinkerScript",
+          "linkerscript"
+        ],
+        "extensions": [
+          ".ld",
+          ".dld",
+          ".lds",
+          ".x"
+        ],
+        "configuration": "./config/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "linkerscript",
+        "scopeName": "source.ld",
+        "path": "./syntaxes/linkerscript.json"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNetAdmin/vscode-linkerscript.git"
+  },
+  "bugs": {
+    "email": "zxwang42@gmail.com",
+    "url": "https://github.com/TheNetAdmin/vscode-linkerscript/issues"
+  },
+  "dependencies": {}
+}
