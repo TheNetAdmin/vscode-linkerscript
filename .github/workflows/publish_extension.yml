@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Publish to Visual Studio Marketplace
-      uses: JCofman/vscodeaction@v2.0.1
+      uses: JCofman/vscodeaction@master
       env:
         PUBLISHER_TOKEN: ${{ secrets.VSCE_TOKEN }}
       with:
