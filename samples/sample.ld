@@ -36,7 +36,10 @@ SECTIONS
     .text_init :
     {
         _ftext_init = ABSOLUTE(.);
-        
+
+        test/*.o(.data);
+        test/*.o(data2);
+
         start.o(.text)
         preboot.o(.text)
         [A-Z]*(.data)

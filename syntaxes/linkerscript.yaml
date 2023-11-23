@@ -77,7 +77,7 @@ repository:
         match: (?x) \b(?:SECTIONS)\b
       # section input `start.o(*.text *.text.*)`
       - name: section.input.ld
-        match: (?x) (\S+)((?:\s*\(\s*)(((\.[\.\*\w]+)(?:\s*))+)(?:\s*\)))
+        match: (?x) (\S+)((?:\s*\(\s*)((([\.\*\w]+)(?:\s*))+)(?:\s*\)))
         captures:
           '1':
             name: support.function.builtin.ld
