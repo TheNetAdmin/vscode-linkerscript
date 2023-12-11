@@ -2,7 +2,7 @@
   "name": "linkerscript",
   "displayName": "LinkerScript",
   "description": "Language support for GNU linker script",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "ZixuanWang",
   "icon": "images/icon.png",
   "engines": {
